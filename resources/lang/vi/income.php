@@ -8,15 +8,15 @@ return [
 
     'heading' => [
         'welcome' => 'Chào mừng trở lại',
-        'intro' => 'Đây là thu nhập của bạn. Hãy kiếm nhiều nhất có thể.',
+        'intro' => 'Đây là khoản thu của bạn. Hãy kiếm nhiều nhất có thể.',
     ],
 
     'info-box' => [
-        'income-progress' => 'Tiến triển thu nhập',
+        'income-progress' => 'Tiến triển khoản thu',
         'earned' => 'Đã kiếm được!',
         'you-have-earned' => 'Bạn đã kiếm được',
         'out-of' => 'trong tổng số',
-        'budget-message' => 'Bạn đã kiếm được %s%% so với thu nhập hàng tháng dự kiến của bạn. Bạn vẫn còn %s%% để kiếm.',
+        'budget-message' => 'Bạn đã kiếm được %s%% so với khoản thu hàng tháng dự kiến của bạn. Bạn vẫn còn %s%% để kiếm.',
         'budget-status' => 'Tình trạng Ngân sách',
         'looking-good' => 'Trông tốt',
         'good-progress' => 'Tiến triển tốt',
@@ -28,13 +28,13 @@ return [
     ],
 
     'button'    => [
-        'add-income' => 'Thêm Thu Nhập',
-        'update-income' => 'Lưu',
+        'add-income' => 'Thêm Khoản thu',
+        'update-income' => 'Lưu Khoản thu',
         'close' => 'Đóng',
     ],
 
     'income-table' => [
-        'income-records' => 'Bản ghi Thu nhập',
+        'income-records' => 'Bản ghi Khoản thu',
         'name' => 'Tên',
         'date' => 'Ngày',
         'amount' => 'Số tiền',
@@ -46,8 +46,8 @@ return [
     ],
 
     'income-form' => [
-        'add-title' => 'Ghi Lại Thu Nhập',
-        'add-intro' => 'Lưu một bản ghi thu nhập mới.',
+        'add-title' => 'Ghi Lại Khoản thu',
+        'add-intro' => 'Lưu một bản ghi khoản thu mới.',
         'update-title' => 'Cập Nhật Khoản Thu',
         'label' => [
             'title' => 'Tiêu đề',
@@ -81,7 +81,7 @@ return [
     'messages' => [
         'are-you-sure' => 'Bạn có chắc chắn không?',
         'continue' => 'Tiếp tục',
-        'delete' => 'Bản ghi thu nhập này sẽ bị xóa vĩnh viễn',
+        'delete' => 'Bản ghi khoản thu này sẽ bị xóa vĩnh viễn',
         'add-success' => 'Thu nhập được thêm thành công',
         'edit-success' => 'Thu nhập được cập nhật thành công',
         'delete-success' => 'Thu nhập được xóa thành công',

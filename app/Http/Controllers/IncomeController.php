@@ -107,11 +107,11 @@ class IncomeController extends Controller
         $accounts = DB::table('accounts')->where('user', $user->id)->orderByDesc("id")->get();
         $incomecategories = DB::table('categories')->where('user', $user->id)->where('type', 'Income')->orderByDesc("id")->get();
         $income = DB::table('income')->where('id', $id)->first();
-        $directorys1 = DB::table('directory')
+        $directorys = DB::table('directory')
         ->leftJoin('incomedetail', 'incomedetail.directory', '=', 'directory.id')
         ->select('directory.name','incomedetail.income','incomedetail.directory','directory.id')
         ->get();
-        $directorys = collect($directorys1)->unique('name')->values()->all();
+        //  $directorys = collect($directorys1)->unique('name')->values()->all();
         return view('/income/edit', compact("income", "accounts", "incomecategories",'title',"directorys"));
     }
 

@@ -31,14 +31,14 @@ return [
     ],
 
     'button'    => [
-        'add-expense' => 'Thêm Khoản Chi Tiêu',
-        'save-expense' => 'Lưu Khoản Chi Tiêu',
+        'add-expense' => 'Thêm Khoản Chi',
+        'save-expense' => 'Lưu Khoản Chi',
         'update-expense' => 'Lưu',
         'close' => 'Đóng',
     ],
 
     'expense-table' => [
-        'expense-records' => 'Bản ghi Chi tiêu',
+        'expense-records' => 'Bản ghi Khoản Chi',
         'name' => 'Tên',
         'date' => 'Ngày',
         'amount' => 'Số tiền',
@@ -50,7 +50,7 @@ return [
     ],
 
     'expense-form' => [
-        'add-title' => 'Ghi Lại Chi Tiêu',
+        'add-title' => 'Ghi Lại Khoản Chi',
         'add-intro' => 'Lưu một bản ghi chi tiêu mới.',
         'update-title' => 'Cập Nhật Khoản Chi',
         'label' => [
@@ -82,9 +82,9 @@ return [
         'are-you-sure' => 'Bạn có chắc chắn không?',
         'continue' => 'Tiếp tục',
         'delete' => 'Khoản chi tiêu này sẽ bị xóa vĩnh viễn',
-        'add-success' => 'Chi tiêu được thêm thành công',
-        'edit-success' => 'Chi tiêu được cập nhật thành công',
-        'delete-success' => 'Chi tiêu được xóa thành công',
+        'add-success' => 'Khoản Chi được thêm thành công',
+        'edit-success' => 'Khoản Chi được cập nhật thành công',
+        'delete-success' => 'Khoản Chi được xóa thành công',
     ],
 
     'title-expense' => [

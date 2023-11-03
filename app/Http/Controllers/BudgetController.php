@@ -38,48 +38,42 @@ public function index() {
         $stats['percentage'] = 0;
     }
 
-    $budgets = Category::leftJoin("cashlimit", "categories.id", "=", "cashlimit.category")->where("user", $user->id)->where('type', 'expense')->get();
-    
+    $budgets = Category::leftJoin("cashlimit", "categories.id", "=", "cashlimit.category")
+                       ->where("user", $user->id)
+                       ->where('type', 'expense')
+                       ->get();
+ 
     $budgets1 = Category::where("user", $user->id)->where('type', 'expense')->get();
-  
+
     foreach ($budgets1 as $budget) {
-            $budget->spent = Expense::leftJoin("category_expense", "expenses.id", "=", "category_expense.id_expense")
-                            ->leftJoin("categories", "category_expense.id_category", "=", "categories.id")
-                            ->leftJoin("cashlimit", "categories.id", "=", "cashlimit.category")
-                            ->where('category_expense.id_category', $budget->id)
-                            ->whereBetween('expenses.expense_date', ['cashlimit.startday', 'cashlimit.endday'])
-                            ->sum('expenses.amount');
-        $budget->lastmonth = Expense::leftJoin("accounts", "expenses.account", "=", "accounts.id")
-                        ->leftJoin("category_expense", "expenses.id", "=", "category_expense.id_expense")
-                        ->leftJoin("categories", "category_expense.id_category", "=", "categories.id")
-                        ->leftJoin("cashlimit", "categories.id", "=", "cashlimit.category")
-                        ->where('category_expense.id_category', $budget->id)
-                        ->whereBetween('expenses.expense_date', ['cashlimit.startday', 'cashlimit.endday'])
-                        ->sum('expenses.amount');
-        $budget->transactions = Expense::leftJoin("accounts", "expenses.account", "=", "accounts.id")
+        $cashlimit = DB::table('cashlimit')->where('category', $budget->id)->first();
+        if ($cashlimit) {
+            $budget->spent = DB::table('expenses')
                             ->leftJoin("category_expense", "expenses.id", "=", "category_expense.id_expense")
                             ->leftJoin("categories", "category_expense.id_category", "=", "categories.id")
-                            ->leftJoin("cashlimit", "categories.id", "=", "cashlimit.category")
                             ->where('category_expense.id_category', $budget->id)
-                            ->whereBetween('expenses.expense_date', ['cashlimit.startday', 'cashlimit.endday'])
-                            ->count();
-        if ($budget->budget > 0) {
-            $budget->percentage = round(($budget->spent / $budget->budget) * 100);
-        } else {
-            $budget->percentage = 0;
+                            ->whereBetween('expenses.expense_date',[$cashlimit->startday, $cashlimit->endday])
+                            ->sum('expenses.amount');
+        
+            if ($budget->budget > 0) {
+                $budget->percentage = round(($budget->spent / $budget->budget) * 100);
+            } else {
+                $budget->percentage = 0;
+            }
         }
+    }
         // Chart data
         // $stats['thismonth'][] = "{value:" . $budget->spent . ", name:'" . $budget->name . "'}";
         // $stats['lastmonth'][] = "{value:" . $budget->lastmonth . ", name:'" . $budget->name . "'}";
-        $stats['thismonth'][] = [
-            'value' => $budget->spent,
-            'name' => $budget->name,
-        ];
-        $stats['lastmonth'][] = [
-            'value' => $budget->lastmonth,
-            'name' => $budget->name,
-        ];
-    }
+        // $stats['thismonth'][] = [
+        //     'value' => $budget->spent,
+        //     'name' => $budget->name,
+        // ];
+        // $stats['lastmonth'][] = [
+        //     'value' => $budget->lastmonth,
+        //     'name' => $budget->name,
+        // ];
+   
     return view('budget.index', compact("title", "user", "stats", "accounts", "categories", "incomecategories", "budgets","cashlimit","budgets1")); 
   }
 
@@ -109,9 +103,10 @@ public function index() {
                 'startday' => date('Y-m-d', strtotime(request('start_date'))),
                 'endday' => date('Y-m-d', strtotime(request('end_date'))),
             ];
-            Category::where('id', $cat)->update(['budget' => request('amount')]);
-            $limit_id =  DB::table('cashlimit')->insertGetId($data);
+             Category::where('id', $cat)->update(['budget' => request('amount')]);
+            
         }
+        DB::table('cashlimit')->insertGetId($data);
     }
 
    

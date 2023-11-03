@@ -24,7 +24,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h4>{{ __('expenses.expense-table.expense-records') }}</h4>
@@ -38,7 +38,7 @@
                                         <th width="40%">{{ __('expenses.expense-table.name') }}</th>
                                         <th>{{ __('expenses.expense-table.date') }}</th>
                                         <th>{{ __('expenses.expense-table.amount') }}</th>
-                                        <th></th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -72,7 +72,7 @@
                                         <span>{{__('expenses.title-expense.resource-expense')}}: {{ $expense->account}}<br/></span>
                                         @endif --}}
                                                 </td>
-                                                <td><span>{{ date('M d, Y', strtotime($expense->expense_date)) }}</span>
+                                                <td><span>{{date_format(date_create($expense->expense_date), 'd/m/Y')}}</span></td>
                                                 </td>
                                                 <td><strong>{{ number_format($expense->amount, 0, ',', '.') . ' ₫' }}</strong>
                                                 </td>
@@ -127,7 +127,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            {{-- <div class="col-md-3">
                 <div class="card">
                     <div class="card-header">
                         <h4>{{ date('M') }} {{ __('expenses.info-box.budget-usage') }}</h4>
@@ -201,7 +201,7 @@
                                     class="mdi mdi-hand-pointing-right"></i></span></a>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 

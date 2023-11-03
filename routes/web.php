@@ -52,6 +52,7 @@ Route::group(array('middleware' => AuthenticateMiddleware::class), function()
 
         Route::get('/setting',[SettingController::class,'index'])->name('setting.index');
         Route::post('/setting/add',[SettingController::class,'add'])->name('setting.add');
+        Route::delete('/setting/destroy/{id}', [SettingController::class,'destroy'])->name('setting.destroy');
 
         Route::get('/bookbank',[BookbankController::class,'index'])->name('bookbank.index');
         // //ACCOUNT
@@ -86,4 +87,10 @@ Route::group(array('middleware' => AuthenticateMiddleware::class), function()
         Route::post('/expense/update', [ExpenseController::class,'update'])->name('expense.update');
         Route::get('/expense/edit/{id}', [ExpenseController::class,'edit'])->name('expense.edit');
         Route::delete('/expense/destroy/{id}', [ExpenseController::class,'destroy'])->name('expense.destroy');
+
+        Route::get('/bookbank', [BookbankController::class,'index'])->name('bookbank.index');
+        Route::post('/bookbank/add', [BookbankController::class,'add'])->name('bookbank.add');
+        Route::post('/bookbank/update', [BookbankController::class,'update'])->name('bookbank.update');
+        Route::get('/bookbank/edit/{id}', [BookbankController::class,'edit'])->name('bookbank.edit');
+        Route::delete('/bookbank/destroy/{id}', [BookbankController::class,'destroy'])->name('bookbank.destroy');
 });

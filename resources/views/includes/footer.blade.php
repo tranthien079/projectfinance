@@ -1,10 +1,15 @@
-<footer>
+<div class="container" style="padding-top:0!important;">
+    <div class="col-md-12">
+    <footer>
     <div class="footer-logo">
         <img src="{{ asset('uploads/app/logo.png') }}" class="img-responsive">
     </div>
     <p class="text-right pull-right">&copy; {{ date('Y') }} {{ env('APP_NAME') }} <span>•</span>
         {{ __('pages.footer') }}</p>
 </footer>
+
+    </div>
+</div>
 
 
 <!-- add income -->
@@ -198,6 +203,36 @@
 
     return true;
 }
+const numberSelect = document.getElementById('term');
+const otherNumberInput = document.getElementById('otherNumberInput');
+
+// Thêm sự kiện nghe cho sự thay đổi trong phần tử select
+numberSelect.addEventListener('change', function() {
+  if (numberSelect.value === 'other') {
+    // Nếu lựa chọn là "other", hiển thị trường nhập số khác
+    otherNumberInput.style.display = 'block';
+  } else {
+    // Nếu không phải "other", ẩn trường nhập số khác
+    otherNumberInput.style.display = 'none';
+  }
+});
+    </script>
+    <script>
+
+        $(document).ready(function() {
+    function formatBank (bank) {
+        if (!bank.id) { return bank.text; }
+        var $bank = $(
+            '<span><img src="' + $(bank.element).data('image') + '" class="img-flag" width="30" /> ' + bank.text + '</span>'
+        );
+        return $bank;
+    };
+
+    $(".bank-select").select2({
+        templateResult: formatBank,
+        templateSelection: formatBank
+    });
+});
     </script>
 <script>
   $(document).ready(function() {

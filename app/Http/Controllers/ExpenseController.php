@@ -244,7 +244,7 @@ class ExpenseController extends Controller
         $expense = DB::table('expenses')->where('id',  $request->input('expenseid'))->first();
         
         if (!empty($expense->account)) {
-            $this->balance($expense->account, $expense->amount, "minus");
+            $this->balance($expense->account, $expense->amount, "plus");
         }
         DB::table('category_expense')
         ->where('id_expense', $request->input('expenseid'))

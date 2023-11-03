@@ -56,8 +56,8 @@
                                 <option value="{{ $incomecategory->id }}" @if($income->category == $incomecategory->id) selected @endif>{{ $incomecategory->name }} </option>
                              @endforeach
                        @endif
-                       <option value="00" @if($income->category == '0') selected @endif>
-                          {{__('income.income-form.group.other')}} </option>
+                       {{-- <option value="00" @if($income->category == '0') selected @endif>
+                          {{__('income.income-form.group.other')}} </option> --}}
                     </select>
                  </div>
               </div>
@@ -86,6 +86,7 @@
                                
                                  @endphp
                                     <option {{ $income->id == $id_income ? 'selected' : ''}}  value="{{ $dir->id }}">{{ $dir->name }}</option>
+                                    
                                 @endforeach
                             
                         </select>

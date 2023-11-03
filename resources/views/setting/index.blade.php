@@ -171,8 +171,29 @@
                                             <div class="dropdown">
                                                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">{{__('settings.category-table.actions')}} <span class="caret"></span> </button>
                                                 <ul class="dropdown-menu">
-                                                    <li role="presentation"><a role="menuitem" class="fetch-display-click" href="" url="{{ url('Settings@updatecategoryview') }}" data="csrf-token:{{ csrf_token()}}|categoryid:{{ $category->id }}" holder=".update-form" modal="#update"> <i class="mdi mdi-pencil"></i> {{__('settings.category-table.edit')}}</a></li>
-                                                    <li role="presentation"><a role="menuitem" data="categoryid:{{ $category->id }}|csrf-token:{{csrf_token()}}" href="" url="{{ url('Settings@deletecategory') }}" class="send-to-server-click" warning-title="{{__('settings.messages.are-you-sure')}}" warning-message="{{__('settings.messages.delete-category')}}" warning-button="{{__('settings.messages.proceed')}}"> <i class="mdi mdi-delete"></i> {{__('settings.category-table.delete')}}</a></li>
+                        
+                                                    <li>
+                                                        <form method="POST"
+                                                            action="{{ route('setting.destroy', $category->id) }}">
+                                                            @method('DELETE')
+                                                            @csrf
+                                                            <input type="hidden" name="categoryid"
+                                                                value="{{ $category->id }}">
+                                                            <button type="submit"
+                                                                onclick="return confirm('Bạn có chắc muốn xóa hạng mục này?')"
+                                                                class="send-to-server-click btn-delete"
+                                                                data="categoryid:{{ $category->id }}"
+                                                                loader="true">
+                                                                <i class="mdi mdi-delete"
+                                                                    style="margin-right: 10px;"></i>
+                                                                {{ __('expenses.expense-table.delete') }}
+                                                            </button>
+                                                        </form>
+                                                        {{-- <a href="{{ route('income.destroy', $Income->id) }}" class="c-dropdown__item dropdown-item fetch-display-click btn-delete" onclick="return confirm('Bạn có chắc muốn xóa khoản thu này?')">
+                                      <i class="mdi mdi-delete"></i> {{ __('income.income-table.delete') }}
+                                    </a> --}}
+
+                                                    </li>
                                                 </ul>
                                             </div>
                                             </td>

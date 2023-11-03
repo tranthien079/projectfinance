@@ -57,15 +57,16 @@
                                         <br><span>{{__('overview.accounts-table.balance')}}</span></td>
                                     <td><strong>{{ $account->transactions }}</strong>
                                         <br><span>{{__('overview.accounts-table.transactions')}}</span></td>
-                                    <td><strong>{{ date('M d, Y', strtotime($account->updated_at)) }}</strong>
+                                    <td><strong>{{date_format(date_create($account->updated_at), 'd/m/Y') }}</strong>
+                      
                                         <br><span>{{__('overview.accounts-table.updated-on')}}</span></td>
-                                    <td>
+                                    {{-- <td>
                                         @if($account->status == 'Active')
                                         <strong class="text-primary"><i class="mdi mdi-checkbox-blank-circle"></i> {{__('overview.accounts-table.active')}}</strong>
                                         @else
                                         <strong class="text-danger"><i class="mdi mdi-checkbox-blank-circle"></i> {{__('overview.accounts-table.inactive')}}</strong>
                                         @endif
-                                    </td>
+                                    </td> --}}
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">{{__('overview.accounts-table.actions')}}<span class="caret"></span> </button>

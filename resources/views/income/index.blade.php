@@ -21,7 +21,7 @@
     </div>  
 
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-12">
             <div class="card">
               <div class="card-header">
                 <h4>{{__('income.income-table.income-records')}}</h4>
@@ -49,7 +49,7 @@
                                     <span>{{__('income.title-income.resource-income')}}: {{ $Income->name}} </span>
                                     @endif
                                   </td>
-                                  <td><span>{{date('M d, Y', strtotime($Income->income_date))}}</span></td>
+                                  <td><span>{{date_format(date_create($Income->income_date), 'd/m/Y')}}</span></td>
                                   <td><strong>{{ number_format($Income->amount, 0, ',', '.') . ' ₫' }}</strong></td>
                                   <td>
                                     <div class="dropdown">
@@ -88,7 +88,7 @@
               </div>
             </div>
         </div>
-        <div class="col-md-3">
+        {{-- <div class="col-md-3">
             <div class="card">
               <div class="card-header">
                 <h4>{{ date("M") }} {{__('income.info-box.income-progress')}}</h4>
@@ -137,7 +137,7 @@
                 </div>
               </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

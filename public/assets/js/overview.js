@@ -264,7 +264,7 @@ $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
             $(".reports-expenses").text(formatCurrency(response.data.expenses.total));
             $(".expenses-count").text(response.data.expenses.count+" Trns.");
         
-            $(".top-expenses").empty();
+            $(".top-expenses").hide();
             // if (response.data.expenses.top && Object.keys(response.data.expenses.top).length) {
             //     for (let expenseData of response.data.expenses.top) {
             //         $(".top-expenses").append('<tr><td>'+expenseData.expense.title+'</td><td class="text-right">'+expenseData.expense.amount+'</td></tr>');

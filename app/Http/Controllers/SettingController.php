@@ -52,14 +52,17 @@ class SettingController extends Controller
       return redirect()->route('setting.index')->with('success', 'Thêm hạng mục thành công');
     }
 
-    public function deleteCategory() {
-        DB::table('categories')->where('id', request('categoryid'))->delete();
+    public function destroy($id)
+    {
 
-        return response()->json([
-            'status' => 'success',
-            'message' => __('settings.messages.category-deleted'),
-            'data' => __('settings.messages.category-delete-success')
-        ]);
+        $category = DB::table('categories')->where('id',$id)->first();
+      
+        if ($category) {
+            DB::table('categories')->where('id',$id)->delete();
+            return redirect()->route('setting.index')->with('success', 'Xóa hạng mục thành công.');
+        } else {
+            return redirect()->route('setting.index')->with('error', 'Không tìm thấy hạng mục.');
+        }
     }
 
     public function updateCategoryView() {

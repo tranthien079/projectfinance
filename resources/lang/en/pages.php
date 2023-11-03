@@ -9,7 +9,9 @@ return [
         'account' => 'Account',
         'budget' => 'Budget',
         'reset-password' => 'Reset Password',
-        'login' => 'Login'
+        'login' => 'Login',
+        'bookbank' => 'BookBank'
+
     ],
 
     'options' => [

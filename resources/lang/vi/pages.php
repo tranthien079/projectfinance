@@ -9,7 +9,8 @@ return [
         'budget' => 'Quản lí hạn mức chi',
         'account' => 'Quản lí tài khoản',
         'reset-password' => 'Đặt lại Mật khẩu',
-        'login' => 'Đăng nhập'
+        'login' => 'Đăng nhập',
+        'bookbank' => 'Quản lí sổ tiết kiệm'
     ],
 
     'options' => [

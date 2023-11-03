@@ -21,6 +21,7 @@
           <li class="nav-item @if(Route::currentRouteName() == 'income.index') active @endif"><a class="nav-link" href="{{ route('income.index') }}">{{__('pages.sections.income')}}</a></li>
           <li class="nav-item @if(Route::currentRouteName() == 'account.index') active @endif"><a class="nav-link " href="{{ route('account.index') }}">{{__('pages.sections.account')}}</a></li>
           <li class="nav-item @if(Route::currentRouteName() == 'budget.index') active @endif"><a class="nav-link " href="{{ route('budget.index') }}">{{__('pages.sections.budget')}}</a></li>
+          <li class="nav-item @if(Route::currentRouteName() == 'bookbank.index') active @endif"><a class="nav-link " href="{{ route('bookbank.index') }}">{{__('pages.sections.bookbank')}}</a></li>
           <li class="close-menu"><a href=""><i class="mdi mdi-close-circle-outline"></i> {{__('pages.options.close')}}</a></li>
         </ul>
     </nav>

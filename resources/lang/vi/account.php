@@ -3,7 +3,7 @@
 return [
 
     'page' => [
-        'title' => 'Thống kê thu chi',
+        'title' => 'Tài khoản',
     ],
 
     'heading' => [
@@ -12,10 +12,10 @@ return [
     ],
 
     'info-box' => [
-        'budget-status' => 'Số lượng giao dịch',
-        'expenses' => 'Khoản chi',
-        'income' => 'Khoản thu',
-        'savings' => 'Tiết kiệm được',
+        'budget-status' => 'Tình trạng Ngân sách',
+        'expenses' => 'Chi tiêu',
+        'income' => 'Thu nhập',
+        'savings' => 'Tiết kiệm',
         'transactions' => 'Giao dịch',
         'view-all-transactions' => 'Xem tất cả các bản ghi giao dịch'
     ],
@@ -26,8 +26,8 @@ return [
 
     'button'    => [
         'check-budget' => 'Kiểm tra Ngân sách',
-        'income' => 'Khoản thu',
-        'expenses' => 'Khoản chi',
+        'income' => 'Thu nhập',
+        'expenses' => 'Chi tiêu',
         'add-account' => 'Thêm Tài khoản',
         'save-account' => 'Lưu Tài khoản',
         'close' => 'Đóng',
@@ -36,9 +36,9 @@ return [
     'graph' => [
         'last-30-days' => '30 Ngày Qua',
         'activities' => 'hoạt động',
-        'total-income' => 'Tổng khoản thu',
-        'total-expenses' => 'Tổng khoản chi',
-        'top-expenses' => 'Top khoản chi',
+        'total-income' => 'Tổng Thu nhập',
+        'total-expenses' => 'Tổng Chi tiêu',
+        'top-expenses' => 'Top Chi tiêu',
         'trns' => 'Giao dịch',
         'transactions' => 'Giao dịch',
         'amount' => 'Số tiền',
@@ -46,7 +46,7 @@ return [
     ],
 
     'accounts-table' => [
-        'accounts' => 'Nguồn tiền',
+        'accounts' => 'Tài Khoản',
         'balance' => 'Số dư',
         'transactions' => 'Giao dịch',
         'updated-on' => 'Cập nhật vào',
@@ -58,9 +58,9 @@ return [
     ],
 
     'accounts-form' => [
-        'add-title' => 'Thêm Nguồn tiền',
+        'add-title' => 'Thêm Tài Khoản',
         'add-intro' => 'Tạo một tài khoản mới.',
-        'update-title' => 'Cập Nhật Nguồn tiền',
+        'update-title' => 'Cập Nhật Tài Khoản',
         'update-intro' => 'Cập nhật thông tin của %s.',
         'label' => [
             'name' => 'Tên',
@@ -90,9 +90,9 @@ return [
         'continue' => 'Tiếp tục',
         'remembered' => 'Nhớ mật khẩu của bạn?',
         'delete' => 'Bạn muốn xóa tài khoản này?',
-        'add-success' => 'Nguồn tiền được thêm thành công',
-        'edit-success' => 'Nguồn tiền được cập nhật thành công',
-        'delete-success' => 'Nguồn tiền được xóa thành công',
+        'add-success' => 'Tài Khoản được thêm thành công',
+        'edit-success' => 'Tài Khoản được cập nhật thành công',
+        'delete-success' => 'Tài Khoản được xóa thành công',
     ],
     'date-range-label' => [
         'today' => 'Hôm nay',
