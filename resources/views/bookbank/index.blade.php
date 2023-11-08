@@ -38,6 +38,7 @@
                                     <td>Ngày gửi</td>
                                     <td>Số tiền gửi</td>
                                     <td>Kỳ hạn</td>
+                                    <td>Lãi xuất</td>
                                     <td></td>
                                 </tr>
                                 @if (count($bookbanks) > 0)
@@ -52,6 +53,7 @@
                                     <td><strong>{{ date_format(date_create($bookbank->senddate), 'd/m/Y') }}</strong></td>
                                     <td><strong>{{  number_format($bookbank->amount, 0, ',', '.') . ' ₫' }}</strong></td>
                                     <td><strong>{{ $bookbank->term }} tháng</strong></td>
+                                    <td><strong>{{ $bookbank->interest}} %</strong></td>
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-default dropdown-toggle" type="button"
@@ -63,7 +65,26 @@
                                                         href="{{ route('bookbank.edit', $bookbank->id) }}"><i
                                                             class="mdi mdi-pencil"></i>
                                                         {{ __('expenses.expense-table.edit') }}</a></li>
-                                             
+                                               
+                                              <li>
+                                                    <form method="POST" action="{{ route('bookbank.settle', $bookbank->id) }}">
+                                                    @method('POST')
+                                                        @csrf
+                                                        <input type="hidden" name="bookbankid"
+                                                            value="{{ $bookbank->id }}">
+                                                        <button type="submit" class="c-dropdown__item dropdown-item fetch-display-click btn-settle" data="bookbankid:{{ $bookbank->id }}">
+                                                            <i class="mdi mdi-book " style="margin-right: 10px;!important"></i>
+                                                            Tất toán sổ
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                                {{-- <li>
+                                                    <button type="button" class="c-dropdown__item dropdown-item fetch-display-click" data-bookbankid="{{ $bookbank->id }}" onclick="confirmSettle(this)">
+                                                        <i class="mdi mdi-book "></i>
+                                                        Tất toán sổ
+                                                    </button>
+                                                </li> --}}
+
                                                 <li>
                                                     <form method="POST"
                                                         action="{{ route('bookbank.destroy', $bookbank->id) }}">
@@ -77,7 +98,7 @@
                                                             data="bookbankid:{{ $bookbank->id }}"
                                                             loader="true">
                                                             <i class="mdi mdi-delete"
-                                                                style="margin-right: 10px;"></i>
+                                                                style="margin-right: 10px;!important"></i>
                                                             {{ __('expenses.expense-table.delete') }}
                                                         </button>
                                                     </form>
@@ -91,7 +112,7 @@
                                 @endforeach
                                 @else 
                                 <tr>
-                                    Không có sổ tiết kiệm nào
+                                  <div class="text-center">Không có sổ tiết kiệm nào.</div>
                                 </tr>
                                 @endif
                                </tbody>
@@ -118,6 +139,7 @@
                                  <td>Ngày gửi</td>
                                  <td>Số tiền gửi</td>
                                  <td>Kỳ hạn</td>
+                                 <td>Lãi xuất</td>
                                  <td></td>
                              </tr>
                              @if (count($bookbankSettled) > 0)
@@ -132,18 +154,19 @@
                                  <td><strong>{{ date_format(date_create($bookbank->senddate), 'd/m/Y') }}</strong></td>
                                  <td><strong>{{  number_format($bookbank->amount, 0, ',', '.') . ' ₫' }}</strong></td>
                                  <td><strong>{{ $bookbank->term }} tháng</strong></td>
+                                 <td><strong>{{ $bookbank->interest}} %</strong></td>
                                  <td>
                                      <div class="dropdown">
                                          <button class="btn btn-default dropdown-toggle" type="button"
                                              data-toggle="dropdown">{{ __('expenses.expense-table.actions') }}
                                              <span class="caret"></span> </button>
                                          <ul class="dropdown-menu">
-                                             <li><a class="c-dropdown__item dropdown-item fetch-display-click"
+                                             <!-- <li><a class="c-dropdown__item dropdown-item fetch-display-click"
                                                      data="bookbankid:{{ $bookbank->id }}"
                                                      href="{{ route('bookbank.edit', $bookbank->id) }}"><i
                                                          class="mdi mdi-pencil"></i>
-                                                     {{ __('expenses.expense-table.edit') }}</a></li>
-                                          
+                                                     {{ __('expenses.expense-table.edit') }}</a>
+                                            </li>     -->
                                              <li>
                                                  <form method="POST"
                                                      action="{{ route('bookbank.destroy', $bookbank->id) }}">
@@ -169,12 +192,10 @@
                                  </td>
                              </tr>
                              @endforeach
-                             @else 
-                             <tr>
-                                 Không có sổ tiết kiệm nào
-                             </tr>
+                             
                              @endif
                             </tbody>
+                         
                         </table>
                     </div>
                 </div>
@@ -344,9 +365,19 @@
    
            </div>
        </div>
-       
+   
     @include('includes/footer')
     
+    
+
+
+{{-- <script>
+function confirmSettle(button) {
+    var bookbankId = button.getAttribute('data-bookbankid');
+    var interest = calculateInterest(bookbankId); 
+    console.log(bookbankId);
+}
+</script> --}}
     </div>
 
 </body>

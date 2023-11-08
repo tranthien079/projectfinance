@@ -202,21 +202,22 @@
     }
 
     return true;
-}
-const numberSelect = document.getElementById('term');
-const otherNumberInput = document.getElementById('otherNumberInput');
+    }
+    const numberSelect = document.getElementById('term');
+    const otherNumberInput = document.getElementById('otherNumberInput');
 
-// Thêm sự kiện nghe cho sự thay đổi trong phần tử select
-numberSelect.addEventListener('change', function() {
-  if (numberSelect.value === 'other') {
-    // Nếu lựa chọn là "other", hiển thị trường nhập số khác
-    otherNumberInput.style.display = 'block';
-  } else {
-    // Nếu không phải "other", ẩn trường nhập số khác
-    otherNumberInput.style.display = 'none';
-  }
-});
+    // Thêm sự kiện nghe cho sự thay đổi trong phần tử select
+    numberSelect.addEventListener('change', function() {
+    if (numberSelect.value === 'other') {
+        // Nếu lựa chọn là "other", hiển thị trường nhập số khác
+        otherNumberInput.style.display = 'block';
+    } else {
+        // Nếu không phải "other", ẩn trường nhập số khác
+        otherNumberInput.style.display = 'none';
+    }
+    });
     </script>
+   
     <script>
 
         $(document).ready(function() {
@@ -235,6 +236,9 @@ numberSelect.addEventListener('change', function() {
 });
     </script>
 <script>
+    $('input[type=number]').on('input', function() {
+    this.value = parseFloat(this.value).toFixed(0);
+});
   $(document).ready(function() {
     
     $('#categoryAdd').select2({

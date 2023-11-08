@@ -93,4 +93,5 @@ Route::group(array('middleware' => AuthenticateMiddleware::class), function()
         Route::post('/bookbank/update', [BookbankController::class,'update'])->name('bookbank.update');
         Route::get('/bookbank/edit/{id}', [BookbankController::class,'edit'])->name('bookbank.edit');
         Route::delete('/bookbank/destroy/{id}', [BookbankController::class,'destroy'])->name('bookbank.destroy');
+        Route::post('/bookbank/settle/{id}', [BookbankController::class,'settle'])->name('bookbank.settle');
 });

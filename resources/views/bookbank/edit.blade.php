@@ -15,8 +15,8 @@
               <div class="row">
                  <div class="col-md-12">
                     <label>Tên sổ tiết kiệm</label>
-                    <input type="text" class="form-control" name="bookbank" value="{{$bookbank->namebb}}" placeholder="{{__('income.income-form.placeholder.title')}}">
-                    <input type="hidden" name="incomeid" value="{{$bookbank->id}}" />
+                    <input type="text" class="form-control" name="namebb" value="{{$bookbank->namebb}}" placeholder="{{__('income.income-form.placeholder.title')}}">
+                    <input type="hidden" name="bookbankid" value="{{$bookbank->id}}" />
                  </div>
               </div>
            </div>
@@ -77,15 +77,16 @@
             <div class="row">
                 <div class="col-md-12">
                     <label>Kỳ hạn</label>
-                   
-                    <select name="term" id="term" class="form-control select2" >
-                        <option value="1" @if( $bookbank->term == 1 ) selected @endif>1 tháng </option>
-                        <option value="3" @if( $bookbank->term == 3 ) selected @endif>3 tháng </option>
-                        <option value="6" @if( $bookbank->term == 6 ) selected @endif>6 tháng </option>
-                        <option value="12" @if( $bookbank->term == 12 ) selected @endif>12 tháng </option>
-                        <option value="other" @if( $bookbank->term != 1 ||  $bookbank->term != 3 ||  $bookbank->term != 6 ||  $bookbank->term != 12 ) selected @endif>Nhập số khác</option>
+                    <select name="term" id="term" class="form-control select2">
+                        @php
+                        $terms = [1, 3, 6, 12];
+                        @endphp
+                        @foreach($terms as $term)
+                            <option value="{{ $term }}" @if($bookbank->term == $term) selected @endif>{{ $term }} tháng</option>
+                        @endforeach
+                        <option value="other" @if(!in_array($bookbank->term, $terms)) selected @endif>Nhập số khác</option>
                     </select>
-                    <input type="number" name="termTemp" class="form-control"  value= {{ $bookbank->term }} min="1" placeholder="Nhập kỳ hạng khác" id="otherNumberInput" style="display: none;">
+                    <input type="number" name="termTemp" class="form-control" value="{{ $bookbank->term }}" min="1" placeholder="Nhập kỳ hạng khác" id="otherNumberInput" style="display: none;">
                 </div>
             </div>
         </div>
@@ -160,22 +161,25 @@
     </div>
     <div class="col-md-2"></div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          // Lấy phần tử select và input
-          const numberSelect = document.getElementById('numberSelect');
-          const otherNumberInput = document.getElementById('otherNumberInput');
-        
-          // Thêm sự kiện nghe cho sự thay đổi trong phần tử select
-          numberSelect.addEventListener('change', function() {
-            if (numberSelect.value === 'other') {
-              // Nếu lựa chọn là "other", hiển thị trường nhập số khác
-              otherNumberInput.style.display = 'block';
-            } else {
-              // Nếu không phải "other", ẩn trường nhập số khác
-              otherNumberInput.style.display = 'none';
-            }
-          });
-        });
+     document.addEventListener('DOMContentLoaded', function() {
+    // Lấy phần tử select và input
+    const numberSelect = document.getElementById('numberSelect');
+    const otherNumberInput = document.getElementById('otherNumberInput');
+
+    // Thêm sự kiện nghe cho sự thay đổi trong phần tử select
+    numberSelect.addEventListener('change', function() {
+        if (numberSelect.value === 'other') {
+            // Nếu lựa chọn là "other", hiển thị trường nhập số khác
+            otherNumberInput.style.display = 'block';
+        } else {
+            // Nếu không phải "other", ẩn trường nhập số khác
+            otherNumberInput.style.display = 'none';
+        }
+    });
+
+    // Tự kích hoạt sự kiện change
+    numberSelect.dispatchEvent(new Event('change'));
+});
         </script>
   </div>
   @include('includes/footer')

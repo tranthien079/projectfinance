@@ -99,7 +99,7 @@ function initMonthlyGraph(){
         height: '70%',
         width: '85%' ,
         legend: {
-            data: [expense_title+' VND', income_title+' VND'],
+            data: [expense_title, income_title],
             align: 'left'
         },
         tooltip: {},
@@ -119,7 +119,7 @@ function initMonthlyGraph(){
               },
         },
         series: [{
-            name: expense_title+' VND',
+            name: expense_title,
             type: 'bar',
             stack: 'transactions',
             itemStyle: {
@@ -133,7 +133,7 @@ function initMonthlyGraph(){
                 return idx * 10;
             }
         }, {
-            name: income_title+' VND',
+            name: income_title,
             type: 'bar',
             stack: 'transactions',
             barMaxWidth: 10,

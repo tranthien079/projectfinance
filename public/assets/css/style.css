@@ -27,8 +27,23 @@
     border: none;
     display: flex;
     align-content: flex-start;
-    margin-left: 13px;
+    margin-left: 14px;
     color: #98A0A5;
+}
+
+.btn-settle{
+    width: 100%;
+    background: none;
+    border: none;
+    display: flex;
+    align-content: flex-start;
+    margin-left: 14px;
+    color: #98A0A5;
+    margin-bottom: 5px;
+}
+
+.btn-settle:hover {
+    color:rgb(234, 234, 41);
 }
 .distribute-input {
     border-top: 1px dashed #e6eaee;

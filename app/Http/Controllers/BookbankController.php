@@ -35,7 +35,7 @@ class BookbankController extends Controller
         } else {
             $description = request('description');
         }
-        if(request('term') == null) {
+        if(request('term') == null || request('term') == 'other') {
             $term = request('termTemp');
         } else {
             $term = request('term');;
@@ -78,12 +78,79 @@ class BookbankController extends Controller
 
 
     public function update(Request $request) {
+        $user = Auth::user();
+        if($request->input('description') == null) {
+            $description = '';
+        } else {
+            $description = $request->input('description');
+        }
+        if(request('term') == null || request('term') == 'other') {
+            $term = request('termTemp');
+        } else {
+            $term = request('term');;
+        }
     
+        $data = [
+            'namebb' => $request->input('namebb'),
+            'amount' => $request->input('amount'),
+            'namebank' => $request->input('namebank'),
+            'senddate' => date('Y-m-d', strtotime($request->input('senddate'))),
+            'term' => $term,
+            'interest' => $request->input('interest'),
+            'nonterminterest' => $request->input('nonterminterest'),
+            'numberdaysinterest' => $request->input('numberdaysinterest'),
+            'payinterest' => $request->input('payinterest'),
+            'finalizefund' => $request->input('finalizefund'),
+            'account' => $request->input('account'),
+            'user' => $user->id,
+            'description' => $description,
+            'status' => 'notyet'
+        ];
+    
+        DB::table('bookbank')->where('id', $request->input('bookbankid'))->update($data);
+    
+        if ($request->input('account') != "00") {
+            $this->balance($request->input('account'), $request->input('amount'), "minus");
+        }
+    
+        return redirect()->route('bookbank.index')->with('success','Cập nhật sổ tiết kiệm thành công.');
     }
 
-    public function destroy() {
+    public function destroy(Request $request) {
+        $bookbank = DB::table('bookbank')->where('id', $request->input('bookbankid'))->first();
+        
+        if (!empty($bookbank->account)) {
+            $this->balance($bookbank->account, $bookbank->amount, "plus");
+        }
     
+        DB::table('bookbank')->where('id', $request->input('bookbankid'))->delete();
+    
+        return redirect()->route('bookbank.index')->with('success','Xóa sổ tiết kiệm thành công.');
     }
 
+    public function settle(Request $request, $id) {
+        $bookbank = DB::table('bookbank')->where('id', $id)->first();
+        $today = date('Y-m-d');
+        $sendDate = $bookbank->senddate;
+        $term = $bookbank->term;
+        $dueDate = strtotime("+$term months", strtotime($sendDate));
+    
+        // Kiểm tra xem ngày hiện tại có sau ngày gửi và thời hạn không
+        if (strtotime($today) >= $dueDate) {
+            // Tất toán đúng hạn, lãi suất 6%
+            $interest = $bookbank->amount * 0.06;
+        } else {
+            // Tất toán sớm, lãi suất 0.05%
+            $interest = $bookbank->amount * 0.0005;
+        }
+    
+        // Cập nhật số dư tài khoản
+        $this->balance($bookbank->account, $bookbank->amount + $interest, "plus");
+    
+        // Cập nhật trạng thái sổ tiết kiệm
+        DB::table('bookbank')->where('id', $id)->update(['status' => 'settled']);
+    
+        return redirect()->route('bookbank.index')->with('success','Tất toán sổ tiết kiệm thành công.');
+    }
 
 }
