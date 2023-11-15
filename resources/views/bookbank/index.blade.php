@@ -79,7 +79,7 @@
                                                     </form>
                                                 </li>
                                                 {{-- <li>
-                                                    <button type="button" class="c-dropdown__item dropdown-item fetch-display-click" data-bookbankid="{{ $bookbank->id }}" onclick="confirmSettle(this)">
+                                                    <button type="button" class="c-dropdown__item dropdown-item fetch-display-click" data-bookbankid="{{ $bookbank->id }}" onclick="return confirm('Bạn có muốn tất toán sổ tiết kiệm này không?');">
                                                         <i class="mdi mdi-book "></i>
                                                         Tất toán sổ
                                                     </button>
@@ -163,12 +163,6 @@
                                              data-toggle="dropdown">{{ __('expenses.expense-table.actions') }}
                                              <span class="caret"></span> </button>
                                          <ul class="dropdown-menu">
-                                             <!-- <li><a class="c-dropdown__item dropdown-item fetch-display-click"
-                                                     data="bookbankid:{{ $bookbank->id }}"
-                                                     href="{{ route('bookbank.edit', $bookbank->id) }}"><i
-                                                         class="mdi mdi-pencil"></i>
-                                                     {{ __('expenses.expense-table.edit') }}</a>
-                                            </li>     -->
                                              <li>
                                                  <form method="POST"
                                                      action="{{ route('bookbank.destroy', $bookbank->id) }}">
@@ -186,8 +180,6 @@
                                                          {{ __('expenses.expense-table.delete') }}
                                                      </button>
                                                  </form>
-                                              
-
                                              </li>
                                          </ul>
                                      </div>

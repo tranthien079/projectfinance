@@ -135,15 +135,17 @@ class BookbankController extends Controller
         $sendDate = $bookbank->senddate;
         $dueDate = strtotime("+$term months", strtotime($sendDate));
     
+        // Tính số ngày đã trôi qua từ ngày gửi tiền
+        $daysPassed = (strtotime($today) - strtotime($sendDate)) / (60 * 60 * 24);
+    
         // Kiểm tra xem ngày hiện tại có sau ngày gửi và thời hạn không
         if (strtotime($today) >= $dueDate) {
-            // Tất toán đúng hạn, lãi suất 6%
             // Lãi suất theo thánng
             $interest = $bookbank->amount * $bookbank->interest / 1200 * $term;
         } else {
-            // Tất toán sớm, lãi suất 0.05%
-            $interest = $bookbank->amount * 0.0005;
-        }
+            // Lãi suất theo ngày
+            $interest = $bookbank->amount * $bookbank->interest / 100 * $daysPassed / $bookbank->numberdaysinterest;
+        } 
     
         // Cập nhật số dư tài khoản
         $this->balance($bookbank->account, $bookbank->amount + $interest, "plus");
