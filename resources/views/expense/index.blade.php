@@ -54,18 +54,14 @@
                                                         class="text-danger">{{ __('expenses.title-expense.category-expense') }}
                                                         :
 
-                                                        @foreach ($expense->expenseDetail as $detail)
-                                                            <span
-                                                                class="text-danger">{{ $detail->category->name }},</span>
-                                                        @endforeach
+                                                         <span class="text-danger">{{ $expense->category }}</span>
+                                                    
 
                                                         <br>
-                                                        @foreach ($account as $ac)
-                                                            @if ($ac->id == $expense->account)
+                                                     
                                                                 <span>{{ __('expenses.title-expense.resource-expense') }}:
-                                                                    {{ $ac->name }}<br /></span>
-                                                            @endif
-                                                        @endforeach
+                                                                    {{ $expense->name }}<br /></span>
+                                                         
                                                         {{-- @if (empty($expense->account))
                                         <span>{{__('expenses.title-expense.resource-expense')}}: {{__('expenses.expense-table.other')}}<br/></span>
                                         @else
@@ -273,7 +269,9 @@
                             <div class="row">
                                 <div class="col-md-12 ">
                                     <label>{{ __('expenses.expense-form.label.category') }}</label>
-                                    <select class="form-control select2" name="category[]" id="categorySelect" multiple="multiple">
+                                    <!-- <select class="form-control select2" name="category" id="categorySelect" required>
+                                    <option disabled selected >Chọn hạng mục
+                                        </option> 
                                         {{-- @if (!empty($categories)) --}}
                                             @foreach ($categoryDefault as $key => $val)
                                                
@@ -289,9 +287,24 @@
                                                 </option>
                                             @endforeach
                                         {{-- @endif --}}
-                                        {{-- <option value="00">{{ __('expenses.expense-form.category.other') }}
-                                        </option> --}}
-                                    </select>
+                                       
+                                    </select> -->
+                                    <select class="form-control select2" name="category" id="categorySelect" required>
+                                        <option value="">Chọn hạng mục</option> 
+                                        @foreach ($categoryDefault as $key => $val)
+                                            <option value="{{ $val->id }}">
+                                                @php
+                                                $str = '';
+                                                for ($i = 0; $i < $val->level; $i++) {
+                                                    echo $str;
+                                                    $str .= '----  ';
+                                                }
+                                                @endphp
+                                                {{ $val->name }}
+                                            </option>
+                                        @endforeach
+                                     
+                                </select>
                                 </div>
                             </div>
                         </div>
@@ -305,13 +318,14 @@
                                 </div>
                             </div>
                         </div>
+                        @if (!empty($directorys))
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-12">
                                     <label>{{ __('expenses.expense-form.label.directory') }}</label>
                                     <input type="text" class="form-control" name="directory"
                                         placeholder="{{ __('expenses.expense-form.placeholder.directory') }}" >
-                                    @if (!empty($directorys))
+                                
                                         <label>{{ __('expenses.expense-form.label.available') }}</label>
                                         <select class="form-control select2" name="directoryMul[]" id="directorySelect" multiple="multiple">
                                            
@@ -320,10 +334,13 @@
                                                 @endforeach
                                             
                                         </select>
-                                    @endif
+                                    
                                 </div>
                             </div>
                         </div>
+                        @else
+
+                        @endif
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-12">

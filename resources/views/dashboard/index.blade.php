@@ -160,6 +160,7 @@
         </div>
 
         <div class="row" id="range">
+           
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -172,14 +173,20 @@
                             <i class="mdi mdi-calendar-text"></i>&nbsp;
                             <span></span>   <i class="mdi mdi-menu-down-outline"></i>
                         </div>
-                        {{-- <form action="{{ route('dashboard.getreports') }}" method="POST">
-                            <label for="start_date">Từ ngày:</label>
-                            <input type="date" id="start_date" name="start_date">
-                            <label for="end_date">Đến ngày:</label>
-                            <input type="date" id="end_date" name="end_date">
-                            <button type="submit">Thống kê</button>
-                        </form> --}}
+                      
+                       
+                    
                         <h4><span class="reports-title">{{__('overview.graph.last-30-days')}}</span> {{__('overview.graph.activities')}}</h4>
+               
+                        <select class="form-control select2" id="accountSelect" style="width:20%!important ">
+    <option value="00">Tất cả tài khoản</option>
+    @if (!empty($accounts))
+        @foreach ($accounts as $account)
+            <option value="{{ $account->id }}">{{ $account->name }}</option>
+        @endforeach
+    @endif
+</select>
+                       
                     </div>
                     <div class="card-body">
                         <div class="row">

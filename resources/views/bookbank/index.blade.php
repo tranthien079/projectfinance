@@ -4,6 +4,7 @@
     @include('includes/navbar')
     <div class="container">
     <div class="page-heading">
+        <button class="btn btn-primary pull-right ml-5" type="button" data-toggle="modal" data-target="#create"><span><i class="mdi mdi-plus-circle-outline"></i></span>Thêm sổ tiết kiệm</button>
            
            <div class="heading-content">
                <div class="user-image">
@@ -15,7 +16,7 @@
                </div>
                <div class="heading-title">
                    <h2>{{__('account.heading.welcome')}}, {{$user->fname}} {{$user->lname}}</h2>
-                   <p>{{__('account.heading.intro')}}</p>
+                   <p>Đây là sổ tiết kiệm của bạn. Hãy tiết kiệm nhiều nhất có thể.</p>
                </div>
            </div>
        </div>
@@ -24,7 +25,6 @@
            <div class="col-md-12">
                <div class="card">
                    <div class="card-header">
-                       <button class="btn btn-primary pull-right ml-5" type="button" data-toggle="modal" data-target="#create"><span><i class="mdi mdi-plus-circle-outline"></i></span>Thêm sổ tiết kiệm</button>
                        <h4>Sổ tiết kiệm</h4>
                    </div>
                    <div class="card-body">
@@ -110,13 +110,15 @@
                                     </td>
                                 </tr>
                                 @endforeach
-                                @else 
-                                <tr>
-                                  <div class="text-center">Không có sổ tiết kiệm nào.</div>
-                                </tr>
+                                
                                 @endif
                                </tbody>
                            </table>
+                           @if (count($bookbanks) > 0)
+
+                           @else
+                           <div class="text-center">Không có sổ tiết kiệm nào.</div>
+                           @endif
                        </div>
                    </div>
                </div>

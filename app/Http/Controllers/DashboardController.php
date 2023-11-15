@@ -41,7 +41,7 @@ class DashboardController extends Controller
             $stats['expensePercentage'] = 0;
         }
     
-        $reports = $this->reports(date('Y-m-d', strtotime('today - 30 days')) . ' 23:59:59', date('Y-m-d') . ' 00:00:00');
+        $reports = $this->reports(date('Y-m-d', strtotime('today - 30 days')) . ' 23:59:59', date('Y-m-d') . ' 00:00:00','10');
 
         return view('dashboard.index', compact("user", "accounts", "categories", "incomecategories", "title", "stats", "reports"));
     }
@@ -51,31 +51,36 @@ class DashboardController extends Controller
         $reports = [];
         // $user = auth()->user();
         $user = Auth::user();
-        $range = $from . ' AND ' . $to;
+   
     
         $reports['income']['total'] = DB::table('income')
             ->where('user', $user->id)
             ->whereBetween('income_date', [$from, $to])
+            // ->where('account', $account)
             ->sum('amount');
     
         $reports['expenses']['total']= DB::table('expenses')
             ->where('user', $user->id)
             ->whereBetween('expense_date', [$from, $to])
+            // ->where('account', $account)
             ->sum('amount');
      
         $reports['income']['count']= DB::table('income')
             ->where('user', $user->id)
             ->whereBetween('income_date', [$from, $to])
+            // ->where('account', $account)
             ->count();
     
         $reports['expenses']['count'] = DB::table('expenses')
             ->where('user', $user->id)
             ->whereBetween('expense_date', [$from, $to])
+            // ->where('account', $account)
             ->count();
     
         $reports['expenses']['top'] = DB::table('expenses')
             ->where('user', $user->id)
             ->whereBetween('expense_date', [$from, $to])
+            // ->where('account', $account)
             ->orderByDesc('amount')
             ->limit(3)
             ->get();
@@ -94,11 +99,13 @@ class DashboardController extends Controller
             $incomeTotal = DB::table('income')
                 ->where('user', $user->id)
                 ->whereBetween('income_date', [$dayStart, $dayEnd])
+                // ->where('account', $account)
                 ->sum('amount');
     
             $expensesTotal = DB::table('expenses')
                 ->where('user', $user->id)
                 ->whereBetween('expense_date', [$dayStart, $dayEnd])
+                // ->where('account', $account)
                 ->sum('amount');
     
             $reports['chart']['income'][] = $incomeTotal;
@@ -108,22 +115,36 @@ class DashboardController extends Controller
         return  $reports;
     }
   
-    public function getreports(Request $request){
+    // public function getreports(Request $request){
        
-        // $from = request("from");
-        // $to = request("to");
+    //     // $from = request("from");
+    //     // $to = request("to");
+    //     $from = $request->input('start_date');
+    //     $to = $request->input('end_date');
+    //     $account = $request->input('accountId');
+    //      $reports = $this->reports($from . ' 00:00:00', $to . ' 23:59:59',$account);
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'error' => '',
+    //         'warning' => '',
+    //         'data' => $reports,
+    //         'flag' => false
+    //         ]);
+     
+        
+    // }
+    public function getreports(Request $request){
         $from = $request->input('start_date');
         $to = $request->input('end_date');
-         $reports = $this->reports($from . ' 00:00:00', $to . ' 23:59:59');
+        $account = $request->input('accountId');
+        $reports = $this->reports($from . ' 00:00:00', $to . ' 23:59:59',$account);
         return response()->json([
             'status' => 'success',
             'error' => '',
             'warning' => '',
             'data' => $reports,
             'flag' => false
-            ]);
-     
-        
+        ]);
     }
     
     public function create()

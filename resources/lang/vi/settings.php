@@ -11,14 +11,14 @@ return [
 
     'side-menu' => [
         'profile' => 'Profile',
-        'categories' => 'Categories',
+        'categories' => 'Hạng mục',
         'system' => 'System',
         'security' => 'Security',
     ],
 
     'button'    => [
-        'save' => 'Save Changes',
-        'add-category' => 'Add Category',
+        'save' => 'Lưu thay đổi',
+        'add-category' => 'Thêm hạng mục',
         'close' => 'Close',
         'add-user' => 'Add User',
         'create-account' => 'Create Account',
@@ -59,10 +59,10 @@ return [
     ],
 
     'category-table' => [
-        'title' => 'Categories',
-        'intro' => 'Manage your income and expense categories',
+        'title' => 'Danh sách hạng mục',
+        'intro' => 'Quản lí hạng mục thu chi của bạn',
         'number' => 'No.',
-        'category-name' => 'Category',
+        'category-name' => 'Tên hạng mục',
         'actions' => 'Actions',
         'edit' => 'Edit',
         'delete' => 'Delete',
@@ -70,8 +70,8 @@ return [
     ],
 
     'category-form' => [
-        'add-title' => 'Add Category',
-        'update-title' => 'Edit Category',
+        'add-title' => 'Thêm hạng mục',
+        'update-title' => 'Sửa hạng mục',
         'label' => [
             'name' => 'Tên hạng mục',
             'type' => 'Loại',
@@ -79,7 +79,7 @@ return [
             
         ],
         'placeholder' => [
-            'name' => 'Category Name',
+            'name' => 'Nhập tên hạng mục',
         ],
     ],
 

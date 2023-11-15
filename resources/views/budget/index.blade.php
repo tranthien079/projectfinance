@@ -5,9 +5,12 @@
     <!-- Main content -->
     <div class="container">
         <div class="page-heading">
-            <button class="btn btn-default pull-right ml-5" type="button" data-toggle="modal" data-target="#create"
+            {{-- <button class="btn btn-default pull-right ml-5" type="button" data-toggle="modal" data-target="#create"
                 data-backdrop="static" data-keyboard="false"><span><i class="mdi mdi-adjust"></i></span>
-                {{__('budget.button.adjust')}} </button>
+                {{__('budget.button.adjust')}} </button> --}}
+                <button class="btn btn-primary pull-right ml-5" type="button" data-toggle="modal"
+                data-target="#addLimit"><span><i class="mdi mdi-plus-circle-outline"></i></span>
+                Thêm hạn mức chi</button>
             <div class="heading-content">
                 <div class="user-image">
                     @if(empty($user->avatar))
@@ -40,9 +43,7 @@
                         <h4>{{ date("M") }} {{__('budget.budget-table.budgeting-goals')}}</h4>
                     </div>
                     <div class="col-md-6">
-                        <button class="btn btn-primary pull-right ml-5" type="button" data-toggle="modal"
-                            data-target="#addLimit"><span><i class="mdi mdi-plus-circle-outline"></i></span>
-                            Thêm hạn mức</button>
+             
                     </div>
 
                 </div>
@@ -483,7 +484,7 @@
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title">Thêm hạn mức</h4>
+                                <h4 class="modal-title">Thêm hạn mức chi</h4>
                             </div>
                             <form class="simcy-form" action="{{ route('budget.add') }}" data-parsley-validate=""
                                 loader="true" method="POST" enctype="multipart/form-data"
@@ -536,8 +537,10 @@
                                         <div class="row">
                                             <div class="col-md-12 ">
                                                 <label>{{ __('expenses.expense-form.label.category') }}</label>
-                                                <select class="form-control select2" name="category[]" id="categoryAdd"
-                                                    multiple="multiple">
+                                                <select class="form-control select2" name="category" id="category"
+                                                    >
+                                                    <option value="00">Chọn hạng mục
+                                                    </option>
                                                     @if (!empty($categories))
                                                     @foreach ($categories as $key => $val)
 
@@ -553,8 +556,7 @@
                                                     </option>
                                                     @endforeach
                                                     @endif
-                                                    <option value="00">{{ __('expenses.expense-form.category.other') }}
-                                                    </option>
+                                                   
                                                 </select>
                                             </div>
                                         </div>

@@ -4,7 +4,7 @@
     <div class="footer-logo">
         <img src="{{ asset('uploads/app/logo.png') }}" class="img-responsive">
     </div>
-    <p class="text-right pull-right">&copy; {{ date('Y') }} {{ env('APP_NAME') }} <span>•</span>
+    <p class="text-right pull-right">&copy; {{ date('Y') }} <i>VENUS</i><span>•</span>
         {{ __('pages.footer') }}</p>
 </footer>
 
@@ -66,7 +66,8 @@
                         <div class="row">
                             <div class="col-md-12 ">
                                 <label>{{ __('income.income-form.label.category') }}</label>
-                                <select class="form-control select2" name="category">
+                                <select class="form-control select2" name="category" id="categorySelect" required >
+                                <option value="">Chọn hạng mục</option> 
                                     @if (!empty($incomecategories))
                                         @foreach ($incomecategories as $incomecategory)
                                             <option value="{{ $incomecategory->id }}">{{ $incomecategory->name }}
@@ -290,3 +291,13 @@
     
     });
 </script>
+<script>
+    $(document).ready(function() {
+        $('.btn-add').click(function() {
+            var accountId = $(this).data('accountid'); // get account id from data attribute
+            $('#addExpense select[name="account"]').val(accountId); // set the value of the select
+            $('#addIncome select[name="account"]').val(accountId); 
+        });
+    });
+    </script>
+

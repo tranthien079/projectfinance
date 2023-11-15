@@ -35,7 +35,7 @@ class BookbankController extends Controller
         } else {
             $description = request('description');
         }
-        if(request('term') == null || request('term') == 'other') {
+        if(request('term') == null) {
             $term = request('termTemp');
         } else {
             $term = request('term');;
@@ -84,10 +84,10 @@ class BookbankController extends Controller
         } else {
             $description = $request->input('description');
         }
-        if(request('term') == null || request('term') == 'other') {
-            $term = request('termTemp');
+        if($request->input('term') == null) {
+            $term = $request->input('termTemp');
         } else {
-            $term = request('term');;
+            $term = $request->input('term');
         }
     
         $data = [
@@ -131,14 +131,15 @@ class BookbankController extends Controller
     public function settle(Request $request, $id) {
         $bookbank = DB::table('bookbank')->where('id', $id)->first();
         $today = date('Y-m-d');
+        $term =  $bookbank->term;
         $sendDate = $bookbank->senddate;
-        $term = $bookbank->term;
         $dueDate = strtotime("+$term months", strtotime($sendDate));
     
         // Kiểm tra xem ngày hiện tại có sau ngày gửi và thời hạn không
         if (strtotime($today) >= $dueDate) {
             // Tất toán đúng hạn, lãi suất 6%
-            $interest = $bookbank->amount * 0.06;
+            // Lãi suất theo thánng
+            $interest = $bookbank->amount * $bookbank->interest / 1200 * $term;
         } else {
             // Tất toán sớm, lãi suất 0.05%
             $interest = $bookbank->amount * 0.0005;

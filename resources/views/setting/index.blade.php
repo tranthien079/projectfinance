@@ -4,7 +4,6 @@
 <!-- Main content -->
 <div class="container">
     <div class="page-heading">
-            <a class="btn btn-default pull-right ml-5" href="{{ url('Budget@get') }}" ><span><i class="mdi mdi-adjust"></i></span> {{__('overview.button.check-budget')}} </a>
         <div class="heading-content">
             <div class="user-image">
                 @if(empty($user->avatar))

@@ -20,16 +20,14 @@ class ExpenseController extends Controller
         $expensecategories = DB::table('categories')->where('user', $user->id)->where('type', 'expense')->orderByDesc("id")->get();
         $categories1 = $this->getCategories();
         $categoryDefault = $this->getCategoriesDefault();
-        $expenses = DB::table("expenses")
+        $expensessss = DB::table("expenses")
             ->where('expenses.user', $user->id)
             ->leftJoin("accounts", "expenses.account", "=", "accounts.id")
-            ->leftJoin("category_expense", "expenses.id", "=", "category_expense.id_expense")
-            ->leftJoin("categories", "category_expense.id_category", "=", "categories.id")
+            ->leftJoin("categories", "expenses.category", "=", "categories.id")
             ->orderByDesc("expenses.id")
-            ->select('expenses.id', 'expenses.expense_date', 'expenses.amount', 'expenses.title', 'accounts.name', 'categories.name as category','category_expense.id_category','category_expense.id_expense')
+            ->select('expenses.id', 'expenses.expense_date', 'expenses.amount', 'expenses.title', 'accounts.name', 'categories.name as category')
             ->get();
 
-         $expensessss = Expense::with('expenseDetail.category','account')->where('expenses.user', $user->id)->get();
          $account = Account::with('expenses')->get();
         // dd($categories);
         $stats['spent'] = DB::table('expenses')->where('user', $user->id)->whereMonth('expense_date', date("m"))->sum('amount');
@@ -43,9 +41,8 @@ class ExpenseController extends Controller
         $categories = DB::table('categories')
         ->where('user', $user->id)
         ->where('categories.type', 'expense')
-        ->leftJoin("category_expense", "categories.id", "=", "category_expense.id_category")
         ->orderByDesc("categories.id")
-        ->select('categories.id', 'category_expense.id_category', 'category_expense.id_expense','categories.id_catalog','categories.name')
+        ->select('categories.id','categories.id_catalog','categories.name')
         ->get();
     
         $listCategories = [];
@@ -76,23 +73,14 @@ class ExpenseController extends Controller
             'user' => $user->id,
             'amount' => request('amount'),
             'account' => request('account'),
+            'category' =>  request('category'),
             'description' => $description,
             'expense_date' => date('Y-m-d', strtotime(request('expense_date')))
             
         ];
         $expense_id =  DB::table('expenses')->insertGetId($data);
       
-        $categoryValues = request('category');
-        $categoryData = [];
-
-        foreach ($categoryValues as $categoryValue) {
-            $categoryData = [
-                'id_category' => $categoryValue,
-                'id_expense' =>  $expense_id,
-            ];
-
-            DB::table('category_expense')->insert($categoryData);
-        }
+    
 
         if(request('directory') == null) {
         
@@ -165,6 +153,7 @@ class ExpenseController extends Controller
                 'title' => request('title'),
                 'amount' => request('amount'),
                 'account' => request('account'),
+                'category' =>  request('category'),
                 'description' => $description,
                 'expense_date' => date('Y-m-d', strtotime(request('expense_date')))
             ];
@@ -177,39 +166,11 @@ class ExpenseController extends Controller
         
             if (request('amount') != $expense->amount && $expense->account > 0) {
                 // Thực hiện các thay đổi liên quan đến tài khoản
-                $this->balance($expense->account, $expense->amount, "minus");
-                $this->balance($expense->account, request('amount'), "plus");
+                $this->balance($expense->account, $expense->amount, "plus");
+                $this->balance($expense->account, request('amount'), "minus");
             }
         
             DB::table('expenses')->where('id', $request->input('expenseid'))->update($data);
-            
-            if(request('category') == null) {
-                DB::table('category_expense')
-                ->where('id_expense', $request->input('expenseid'))
-                ->delete();
-
-            } else {
-                $categoryValues = request('category');
-
-                $categoryData = []; 
-    
-                DB::table('category_expense')
-                ->where('id_expense', $request->input('expenseid'))
-                ->delete();
-    
-                foreach ($categoryValues as $categoryValue) {
-                
-                  $categoryData = 
-                    [
-                    'id_category' => $categoryValue,
-                    'id_expense' =>  $request->input('expenseid'),
-                    ];
-    
-                 DB::table('category_expense')->insert($categoryData);
-                }
-            }
-           
-
 
             if(request('directoryMul') == null) {
                 $directoryValues = '';
@@ -246,9 +207,7 @@ class ExpenseController extends Controller
         if (!empty($expense->account)) {
             $this->balance($expense->account, $expense->amount, "plus");
         }
-        DB::table('category_expense')
-        ->where('id_expense', $request->input('expenseid'))
-        ->delete();
+      
         DB::table('expenses')->where('id',  $request->input('expenseid'))->delete();
     
         return redirect()->route('expense.index')->with('success','Xóa khoản chi thành công.');

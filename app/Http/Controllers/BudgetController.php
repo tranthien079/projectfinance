@@ -49,9 +49,8 @@ public function index() {
         $cashlimit = DB::table('cashlimit')->where('category', $budget->id)->first();
         if ($cashlimit) {
             $budget->spent = DB::table('expenses')
-                            ->leftJoin("category_expense", "expenses.id", "=", "category_expense.id_expense")
-                            ->leftJoin("categories", "category_expense.id_category", "=", "categories.id")
-                            ->where('category_expense.id_category', $budget->id)
+                            ->leftJoin("categories", "expenses.category", "=", "categories.id")
+                            ->where('categories.id', $budget->id)
                             ->whereBetween('expenses.expense_date',[$cashlimit->startday, $cashlimit->endday])
                             ->sum('expenses.amount');
         
@@ -92,24 +91,17 @@ public function index() {
 }
 
   public function add(Request $request) {
-    $category = request('category');
-    if ($category) {
-        foreach ($category as $cat) {
+        $category = request('category');
             $data = [
                 'title' => request('title'),
                 'amountlimit' => request('amount'),
                 'account' => request('account'),
-                'category' => $cat,
+                'category' => $category,
                 'startday' => date('Y-m-d', strtotime(request('start_date'))),
                 'endday' => date('Y-m-d', strtotime(request('end_date'))),
             ];
-             Category::where('id', $cat)->update(['budget' => request('amount')]);
-            
-        }
+             Category::where('id', $category)->update(['budget' => request('amount')]);      
         DB::table('cashlimit')->insertGetId($data);
-    }
-
-   
     return redirect()->route('budget.index')->with('success','Thêm hạn mức chi thành công');
   }
 
@@ -127,19 +119,17 @@ public function index() {
   }
 
   public function update(Request $request) {
-    $categories = $request->input('category', []);
-
-    foreach ($categories as $cat) {
+        $category = request('category');
         $data = [
             'title' => $request->input('title'),
             'amountlimit' => $request->input('amount'),
             'account' => $request->input('account'),
-            'category' => $cat,
+            'category' => $category,
             'startday' => date('Y-m-d', strtotime($request->input('startday'))),
             'endday' => date('Y-m-d', strtotime($request->input('endday')))
         ];
       
-        Category::where('id', $cat)->update(['budget' => $request->input('amount')]);
+        Category::where('id', $category)->update(['budget' => $request->input('amount')]);
 
         // Assuming cashlimit has a 'budget' field that you want to update
         $limit = DB::table('cashlimit')->where('id', $request->input('cashid'))->first();
@@ -147,7 +137,7 @@ public function index() {
         // Assuming cashlimit table contains the fields you're trying to update
         
         DB::table('cashlimit')->where('id', $request->input('cashid'))->update($data);
-    }
+   
 
     return redirect()->route('budget.index')->with('success', 'Cập nhật hạn mức chi thành công.');
 }

@@ -251,7 +251,7 @@ $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
         data: {
             start_date: picker.startDate.format('YYYY-MM-DD'),
             end_date: picker.endDate.format('YYYY-MM-DD'),
-        
+     
         },
         success: function(response) {
 
@@ -283,6 +283,39 @@ $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
     });
 });
 
+
+    $('#accountSelect').onchange(function(picker) {
+        $(".reports-title").text(eval(picker.chosenLabel.toLowerCase().split(' ').join('_')));
+        var accountId = $(this).val();
+        var startDate = $('#startDate').val();
+        var endDate = $('#endDate').val();
+        $.ajax({
+            url: "{{ route('dashboard.getreports') }}",
+            method: 'GET',
+            data: {
+                accountId: accountId,
+                start_date: picker.startDate.format('YYYY-MM-DD'),
+                end_date: picker.endDate.format('YYYY-MM-DD'),
+                _token: "{{ csrf_token() }}"
+            },
+            success: function(response) {
+                const dataObject = response.data;
+                function formatCurrency(number) {
+                    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+                }
+                $(".reports-income").text(formatCurrency(response.data.income.total));
+                $(".income-count").text(response.data.income.count+" Trns.");
+                $(".reports-expenses").text(formatCurrency(response.data.expenses.total));
+                $(".expenses-count").text(response.data.expenses.count+" Trns.");
+            
+                $(".top-expenses").hide();
+                labels = response.data.chart.label;
+                income = response.data.chart.income;
+                expenses = response.data.chart.expenses;
+                initMonthlyGraph(labels, income, expenses);
+            }
+        });
+    });
 
 
 

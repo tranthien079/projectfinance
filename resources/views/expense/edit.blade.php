@@ -51,16 +51,12 @@
                      <div class="row">
                         <div class="col-md-12">
                             <label>{{__('expenses.expense-form.label.category')}}</label>
-                            <select class="form-control select2" name="category[]" id="categorySelect"
-                            multiple="multiple">
+                            <select class="form-control select2" name="category" id="categorySelect"
+                           >
                             @if (!empty($categories))
                                 @foreach ($categories as $key => $val)
-                                    @php
-        
-                                       $id =  $val->id_expense;
-                                      
-                                    @endphp
-                                    <option {{ $expense->id == $id? 'selected' : ''}} value="{{ $val->id }}">
+                                   
+                                    <option @if($expense->category == $val->id) selected @endif value="{{ $val->id }}">
                                         @php
                                             $str = '';
                                             for ($i = 0; $i < $val->level; $i++) {

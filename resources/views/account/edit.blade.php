@@ -50,22 +50,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-12 ">
-                            <label>{{__('account.accounts-form.label.status')}}</label>
-                            <select class="form-control select2" name="status">
-                                <option value="Active" @if($account->status == 'Active') selected @endif >
-                                    {{__('account.accounts-form.status.active')}}</option>
-                                <option value="Inactive" @if($account->status == 'Inactive') selected @endif >
-                                {{__('account.accounts-form.status.inactive')}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+              
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{{__('account.button.close')}}</button>
+            <button type="button" class="btn btn-default"
+               ><a href="{{ route('account.index') }}">{{ __('account.button.close') }}</a></button>
                 <button type="submit" class="btn btn-primary">{{__('account.button.save-account')}}</button>
             </div>
         </form>

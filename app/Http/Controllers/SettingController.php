@@ -15,7 +15,7 @@ class SettingController extends Controller
         $timezones  = DB::table("timezones")->get();
         $currencies = DB::table("currencies")->get();
         $accounts = DB::table('accounts')->where('user', $user->id)->orderByDesc("id")->get();
-        $categories = DB::table('categories')->where('user',$user->id)->orderByDesc("id")->get();
+        $categories = DB::table('categories')->where('user',$user->id)->orderByDesc("type")->get();
         $categories1 = $this->getCategories();
         return view('setting.index', compact("user", "title", "timezones", "currencies","accounts","categories","categories1"));
     }
