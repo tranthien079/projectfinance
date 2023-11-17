@@ -92,10 +92,10 @@
                                                                     <input type="hidden" name="expenseid"
                                                                         value="{{ $expense->id }}">
                                                                     <button type="submit"
-                                                                        onclick="return confirm('Bạn có chắc muốn xóa khoản chi này?')"
+                                                                    loader="true" onclick=" return confirm('Bạn có muốn xóa khoản chi này không?');"
                                                                         class="send-to-server-click btn-delete"
                                                                         data="expenseid:{{ $expense->id }}"
-                                                                        loader="true">
+                                                                     >
                                                                         <i class="mdi mdi-delete"
                                                                             style="margin-right: 10px;"></i>
                                                                         {{ __('expenses.expense-table.delete') }}
@@ -363,7 +363,7 @@
         </div>
     </div>
     @include('includes/footer')
-
+    
 </body>
 
 </html>

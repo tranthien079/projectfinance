@@ -16,7 +16,6 @@
                  <div class="col-md-12">
                     <label>{{__('income.income-form.label.title')}}</label>
                     <input type="text" class="form-control" name="title" value="{{$income->title}}" placeholder="{{__('income.income-form.placeholder.title')}}">
-            
                     <input type="hidden" name="incomeid" value="{{$income->id}}" />
                  </div>
               </div>
@@ -81,12 +80,9 @@
                         <select class="form-control select2" name="directoryMul[]" id="directorySelect" multiple="multiple">
                                 @foreach ($directorys as $dir)
                                 @php
-
-                                $id_income =  $dir->income;
-                               
+                                $id_income =  $dir->income;           
                                  @endphp
                                     <option {{ $income->id == $id_income ? 'selected' : ''}}  value="{{ $dir->id }}">{{ $dir->name }}</option>
-                                    
                                 @endforeach
                             
                         </select>

@@ -3,21 +3,9 @@
 <body>
     @include('includes/navbar')
     <!-- Main content -->
+   
     <div class="container">
         <div class="page-heading">
-
-       <!--
-        Display the error message when logged in user as superadmin
-        version doesn't match
-        -->
-        {{-- @if ( ($user->role == "admin") && env("APP_VERSION") != "1.3" )
-            <div class="alert alert-danger" role="alert">
-                <b>ERROR: Your database isn't up to date.</b><br/>Please go to the <a href="{{  route('update.get') }}">update</a> page to upgrade your database.</b><br/>
-            </div>
-            <br/>
-        @endif --}}
-
-
             <a class="btn btn-default pull-right ml-5" href="{{  route('budget.index') }}"><span><i class="mdi mdi-adjust"></i></span>{{__('overview.button.check-budget')}}</a>
             <div class="heading-content">
                 <div class="user-image">
@@ -309,7 +297,13 @@
         <div class="update-form"></div>
       </div>
     </div>
-
+    @if(session('show_warning'))
+    @foreach($budgets1 as $key => $budget)                  
+        @if($budget->spent > $budget->budget )
+            <script> swal("Cảnh báo bạn đã vượt hạn mức", "Hãy đến trang quản lí hạn mức chi để xem chi tiết!", "warning");</script>
+        @endif
+    @endforeach
+    @endif
    
     <script src="{{ asset('assets/js/moment.min.js') }}"></script>
     <script src="{{ asset('assets/libs/daterangepicker/daterangepicker.js') }}"></script>
@@ -319,6 +313,7 @@
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
     <!-- custom scripts -->
     <script type="text/javascript">
+       
         const reportsUrl = "{{route('dashboard.getreports')}}";
         // doughnut
         var totalIncome = {{ $stats['income'] }},

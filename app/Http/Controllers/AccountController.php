@@ -85,8 +85,7 @@ class AccountController extends Controller
     }
     public function destroy($id)
     {
-        DB::table('accounts')->where('id', $id)->delete();
- 
+        Account::find($id)->delete();
         return redirect()->route('account.index')->with('success','Xóa tài khoản thành công.');
     }
 }

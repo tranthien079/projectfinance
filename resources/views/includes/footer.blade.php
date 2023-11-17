@@ -154,70 +154,7 @@
     <!-- custom scripts -->
     <script src="{{asset('assets/js/app.js')}}"></script>
     <script src="{{ url('') }}lang/{{env('APP_LOCALE_DEFAULT')}}/lang.js"></script> <!-- js language translation -->
-    <script>
-        $(document).ready(function() {
-            $.fn.dataTable.moment("MMM DD, YYYY");
-            $('#datatable').DataTable({
-                dom: 'Bfrtip',
-                columnDefs: [
-                  { type: 'currency', targets: 2 }
-                ],
-                order: [[ 1, 'desc']],
-                buttons: [
-                  {
-                    extend: 'copyHtml5',
-                    exportOptions: {
-                      columns: [ 0, 1, 2 ],
-                      stripNewlines: false,
-                    },
-                  },
-                  {
-                    extend: 'excelHtml5',
-                    exportOptions: {
-                        columns: [ 0, 1, 2 ]
-                    }
-                  },
-                  {
-                    extend: 'pdfHtml5',
-                    exportOptions: {
-                        columns: [ 0, 1, 2 ],
-                        stripNewlines: false,
-                    },
-                    customize : function(doc) {
-                        doc.content[1].table.widths = [ '60%', '20%', '20%',];
-                    }
-                  }
-                ],
-                language: {
-                    url: '{{ url('') }}lang/{{env('APP_LOCALE_DEFAULT')}}/table_lang.json'
-                }
-            });
-        });
-        function kiemTraNgay() {
-    var ngayBatDau = new Date(document.getElementById('start').value);
-    var ngayKetThuc = new Date(document.getElementById('end').value);
-
-    if (ngayKetThuc <= ngayBatDau) {
-        alert('Ngày kết thúc phải sau ngày bắt đầu');
-        return false;
-    }
-
-    return true;
-    }
-    const numberSelect = document.getElementById('term');
-    const otherNumberInput = document.getElementById('otherNumberInput');
-
-    // Thêm sự kiện nghe cho sự thay đổi trong phần tử select
-    numberSelect.addEventListener('change', function() {
-    if (numberSelect.value === 'other') {
-        // Nếu lựa chọn là "other", hiển thị trường nhập số khác
-        otherNumberInput.style.display = 'block';
-    } else {
-        // Nếu không phải "other", ẩn trường nhập số khác
-        otherNumberInput.style.display = 'none';
-    }
-    });
-    </script>
+    
    
     <script>
 
@@ -236,6 +173,7 @@
     });
 });
     </script>
+
 <script>
     $('input[type=number]').on('input', function() {
     this.value = parseFloat(this.value).toFixed(0);
@@ -249,45 +187,11 @@
       $('#categorySelect').select2({
        
       });
-    //   $('#categorySelect').on('change', function() {
-    //     var selectedOptions = $(this).val();
 
-    //     if (selectedOptions.length > 0) {
-    //       var firstOptionValue = selectedOptions[0];
-
-    //       $('#categorySelect option').each(function() {
-    //         var optionValue = $(this).val();
-
-    //         if (optionValue === firstOptionValue || optionValue.startsWith(firstOptionValue + '.')) {
-    //           $(this).prop('selected', true);
-    //         }
-    //       });
-
-    //       $('#categorySelect').trigger('change.select2'); // Cập nhật Select2
-    //     }
-    //   });
 
     $('#directorySelect').select2({
        
     });
-    // $('#directorySelect').on('change', function() {
-    //   var selectedOptions = $(this).val();
-
-    //   if (selectedOptions.length > 0) {
-    //     var firstOptionValue = selectedOptions[0];
-
-    //     $('#directorySelect option').each(function() {
-    //       var optionValue = $(this).val();
-
-    //       if (optionValue === firstOptionValue || optionValue.startsWith(firstOptionValue + '.')) {
-    //         $(this).prop('selected', true);
-    //       }
-    //     });
-
-    //     $('#directorySelect').trigger('change.select2'); // Cập nhật Select2
-    //   }
-    // });
-
     
     });
 </script>
@@ -300,4 +204,68 @@
         });
     });
     </script>
+<script>
+    $(document).ready(function() {
+        $.fn.dataTable.moment("MMM DD, YYYY");
+        $('#datatable').DataTable({
+            dom: 'Bfrtip',
+            columnDefs: [
+              { type: 'currency', targets: 2 }
+            ],
+            order: [[ 1, 'desc']],
+            buttons: [
+              {
+                extend: 'copyHtml5',
+                exportOptions: {
+                  columns: [ 0, 1, 2 ],
+                  stripNewlines: false,
+                },
+              },
+              {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ]
+                }
+              },
+              {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2 ],
+                    stripNewlines: false,
+                },
+                customize : function(doc) {
+                    doc.content[1].table.widths = [ '60%', '20%', '20%',];
+                }
+              }
+            ],
+            language: {
+                url: '{{ url('') }}lang/{{env('APP_LOCALE_DEFAULT')}}/table_lang.json'
+            }
+        });
+    });
+            function kiemTraNgay() {
+        var ngayBatDau = new Date(document.getElementById('start').value);
+        var ngayKetThuc = new Date(document.getElementById('end').value);
+
+        if (ngayKetThuc <= ngayBatDau) {
+            alert('Ngày kết thúc phải sau ngày bắt đầu');
+            return false;
+        }
+
+        }
+       
+        const numberSelect = document.getElementById('term');
+        const otherNumberInput = document.getElementById('otherNumberInput');
+
+        // Thêm sự kiện nghe cho sự thay đổi trong phần tử select
+        numberSelect.addEventListener('change', function() {
+        if (numberSelect.value === 'other') {
+            // Nếu lựa chọn là "other", hiển thị trường nhập số khác
+            otherNumberInput.style.display = 'block';
+        } else {
+            // Nếu không phải "other", ẩn trường nhập số khác
+            otherNumberInput.style.display = 'none';
+        }
+        });
+</script>
 

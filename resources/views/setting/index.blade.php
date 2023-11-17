@@ -37,7 +37,6 @@
         <div class="col-md-9">
             <div class="card">
               <div class="card-body p-zero">
-                
                         <div class="tab-content settings">
                             <div class="row">
                                 <div class="col-md-12">

@@ -66,7 +66,7 @@
                                                             class="mdi mdi-pencil"></i>
                                                         {{ __('expenses.expense-table.edit') }}</a></li>
                                                
-                                              <li>
+                                              <!-- <li>
                                                     <form method="POST" action="{{ route('bookbank.settle', $bookbank->id) }}">
                                                     @method('POST')
                                                         @csrf
@@ -77,14 +77,15 @@
                                                             Tất toán sổ
                                                         </button>
                                                     </form>
-                                                </li>
-                                                {{-- <li>
-                                                    <button type="button" class="c-dropdown__item dropdown-item fetch-display-click" data-bookbankid="{{ $bookbank->id }}" onclick="return confirm('Bạn có muốn tất toán sổ tiết kiệm này không?');">
-                                                        <i class="mdi mdi-book "></i>
-                                                        Tất toán sổ
-                                                    </button>
-                                                </li> --}}
-
+                                                </li> -->
+                                               <li>
+                                               <a href="{{ route('bookbank.settle', $bookbank->id) }}" style="padding: 0!important;">  
+                                                <button type="button" class="c-dropdown__item dropdown-item fetch-display-click btn-settle" data="bookbankid:{{ $bookbank->id }}" onclick="return confirm('Bạn có muốn tất toán sổ này?')">
+                                                            <i class="mdi mdi-book " style="margin-right: 10px;!important"></i>
+                                                             Tất toán sổ  
+                                                        </button>
+                                                        </a>
+                                               </li>
                                                 <li>
                                                     <form method="POST"
                                                         action="{{ route('bookbank.destroy', $bookbank->id) }}">
@@ -94,7 +95,7 @@
                                                             value="{{ $bookbank->id }}">
                                                         <button type="submit"
                                                             onclick="return confirm('Bạn có chắc muốn sổ tiết kiệm này?')"
-                                                            class="send-to-server-click btn-delete"
+                                                            class="send-to-server-click btn-delete fs-3"
                                                             data="bookbankid:{{ $bookbank->id }}"
                                                             loader="true">
                                                             <i class="mdi mdi-delete"
@@ -214,7 +215,7 @@
                                <div class="row">
                                    <div class="col-md-12">
                                        <label>Tên sổ tiết kiệm</label>
-                                       <input type="text" class="form-control" name="namebb" placeholder="Nhập tên sổ tiết kiệm" required="">
+                                       <input type="text" class="form-control" name="namebb" placeholder="Nhập tên sổ tiết kiệm" required>
                                        <input type="hidden" name="csrf-token" value="{{csrf_token()}}" />
                                    </div>
                                </div>
@@ -285,8 +286,8 @@
                                <div class="row">
                                    <div class="col-md-12 input-hero">
                                        <label>Lãi suất không thời hạn</label>
-                                       <input type="number" inputmode="numeric"  name="nonterminterest" id="" step="0.01" min="0.05" class="form-control" value="0.05" required>
-                                        <span>%/năm</span>
+                                       <input type="number" inputmode="numeric"  name="nonterminterest" step="0.01" min="0.01" class="form-control" value="0.05" required >
+                                       <span>%/năm</span>
                                    </div>
                                </div>
                            </div>
@@ -316,12 +317,29 @@
                                    <div class="col-md-12 input-hero">
                                        <label>Khi đến hạn</label>
                                       <select name="finalizefund" id="" class="form-control" required>
+                                            <option value="finalize">Tất toán sổ</option>
                                             <option value="renewpandi">Tái tục gốc và lãi</option>
                                             <option value="renewp">Tái tục gốc</option>
-                                            <option value="finalize">Tất toán sổ</option>
                                       </select>
                                    </div>
                                </div>
+                           </div>
+                           <div class="form-group">
+                           <div class="row">
+                                <div class="col-md-12">
+                                    <label>Tiền lãi được trả vào tài khoản</label>
+                                    <select class="form-control select2" name="accountpay">
+                                        <option value="">Chọn tài khoản nhận tiền
+                                        </option>
+                                        @if (!empty($accounts))
+                                            @foreach ($accounts as $account)
+                                                <option value="{{ $account->id }}">{{ $account->name }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+
+                                </div>
+                            </div> 
                            </div>
                            <div class="form-group">
                             <div class="row">
@@ -338,7 +356,7 @@
                                     </select>
 
                                 </div>
-                            </div>
+                            </div> 
                         </div>
                         <div class="form-group">
                                <div class="row">
@@ -350,9 +368,10 @@
                            </div>
                             
                        </div>
+                      
                        <div class="modal-footer">
                            <button type="button" class="btn btn-default" data-dismiss="modal">{{__('account.button.close')}}</button>
-                           <button type="submit" class="btn btn-primary">{{__('account.button.add-account')}}</button>
+                           <button type="submit" class="btn btn-primary">Thêm sổ tiết kiệm</button>
                        </div>
                    </form>
                </div>
@@ -365,13 +384,41 @@
     
 
 
-{{-- <script>
-function confirmSettle(button) {
-    var bookbankId = button.getAttribute('data-bookbankid');
-    var interest = calculateInterest(bookbankId); 
-    console.log(bookbankId);
-}
-</script> --}}
+ <script>
+// function confirmSettle(button) {
+//     var bookbankId = button.getAttribute('data-bookbankid');
+//     var interest = calculateInterest(bookbankId); 
+//     console.log(bookbankId);
+// }
+
+$(document).ready(function() {
+  
+    // Ẩn trường "Tiền được trả vào tài khoản" khi trang tải
+    $('select[name="accountpay"]').parent().parent().hide();
+
+    // Khi giá trị của trường "Trả lãi" thay đổi
+    $('select[name="payinterest"]').change(function() {
+        if ($(this).val() == 'begin' || $(this).val() == 'monthlyperiod'  ) {
+            // Hiển thị trường "Tiền được trả vào tài khoản"
+            $('select[name="accountpay"]').parent().parent().show();
+
+            // Hiển thị chỉ 2 option cho trường "Khi đến hạn"
+            $('select[name="finalizefund"] option[value="renewpandi"]').hide();
+            $('select[name="finalizefund"] option[value="renewp"]').show();
+            $('select[name="finalizefund"] option[value="finalize"]').show();
+        } else{
+            // Ẩn trường "Tiền được trả vào tài khoản"
+            $('select[name="accountpay"]').parent().parent().hide();
+
+            // Hiển thị tất cả option cho trường "Khi đến hạn"
+            $('select[name="finalizefund"] option[value="renewpandi"]').show();
+            $('select[name="finalizefund"] option[value="renewp"]').show();
+            $('select[name="finalizefund"] option[value="finalize"]').show();
+        }
+    });
+
+});
+</script>
     </div>
 
 </body>

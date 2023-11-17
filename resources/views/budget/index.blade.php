@@ -537,9 +537,8 @@
                                         <div class="row">
                                             <div class="col-md-12 ">
                                                 <label>{{ __('expenses.expense-form.label.category') }}</label>
-                                                <select class="form-control select2" name="category" id="category"
-                                                    >
-                                                    <option value="00">Chọn hạng mục
+                                                <select class="form-control select2" name="category" id="category" required>
+                                                    <option value="">Chọn hạng mục
                                                     </option>
                                                     @if (!empty($categories))
                                                     @foreach ($categories as $key => $val)

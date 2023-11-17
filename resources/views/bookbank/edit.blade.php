@@ -52,8 +52,16 @@
                 <div class="row">
                 <div class="col-md-12">
                     <label>Ngày gửi</label>
-                    <input type="date" class="form-control datepicker-dynamic" value="{{$bookbank->senddate}}" name="senddate" placeholder="{{__('income.income-form.placeholder.date')}}">
+                    <input type="date" class="form-control datepicker-dynamic" value="{{$bookbank->senddate}}" id="senddate" name="senddate" placeholder="{{__('income.income-form.placeholder.date')}}">
                 </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Ngày đến hạn</label>
+                        <input type="date" class="form-control" name="duedate" id="duedate" readonly  style="pointer-events: none;">
+                    </div>
                 </div>
             </div>
            <div class="form-group">
@@ -121,7 +129,7 @@
             <div class="row">
                 <div class="col-md-12 input-hero">
                     <label>Trả lãi</label>
-                   <select name="payinterest" id="" class="form-control" required>
+                   <select name="payinterest" id="" class="form-control" required readonly  style="pointer-events: none;" >
                          <option value="end" @if( $bookbank->payinterest == "end" ) selected @endif>Cuối kì</option>
                          <option value="begin" @if( $bookbank->payinterest == "begin" ) selected @endif>Đầu kì</option>
                          <option value="monthlyperiod" @if( $bookbank->payinterest == "monthlyperiod" ) selected @endif>Định kì hàng tháng</option>
@@ -133,11 +141,11 @@
             <div class="row">
                 <div class="col-md-12 input-hero">
                     <label>Khi đến hạn</label>
-                   <select name="finalizefund" id="" class="form-control" required>
-                         <option value="renewpandi" @if( $bookbank->finalizefund == "renewpandi" ) selected @endif>Tái tục gốc và lãi</option>
-                         <option value="renewp"  @if( $bookbank->finalizefund == "renewp" ) selected @endif>Tái tục gốc</option>
-                         <option value="finalize"  @if( $bookbank->finalizefund == "finalize" ) selected @endif>Tất toán sổ</option>
-                   </select>
+                    <select name="finalizefund" id="" class="form-control" required readonly style="pointer-events: none;">
+                    <option value="renewpandi" @if( $bookbank->finalizefund == "renewpandi" ) selected @endif>Tái tục gốc và lãi</option>
+                    <option value="renewp"  @if( $bookbank->finalizefund == "renewp" ) selected @endif>Tái tục gốc</option>
+                    <option value="finalize"  @if( $bookbank->finalizefund == "finalize" ) selected @endif>Tất toán sổ</option>
+                </select>
                 </div>
             </div>
         </div>
@@ -155,12 +163,26 @@
          <button type="button" class="btn btn-default"
          >
          <a href="{{ route('bookbank.index') }}">{{__('income.button.close')}}</button>
-           <button type="submit" class="btn btn-primary">{{__('income.button.update-income')}}</button>
+           <button type="submit" class="btn btn-primary">Lưu sổ tiết kiệm</button>
         </div>
      </form>
     </div>
     <div class="col-md-2"></div>
     <script>
+        // Lấy giá trị ngày gửi
+    var senddateInput = document.getElementById('senddate');
+    var senddateValue = senddateInput.value;
+
+    // Chuyển đổi giá trị ngày gửi thành đối tượng Date
+    var senddate = new Date(senddateValue);
+
+    // Thêm một tháng vào ngày gửi
+    senddate.setMonth(senddate.getMonth() + 1);
+
+    // Đặt giá trị ngày đến hạn
+    var duedateInput = document.getElementById('duedate');
+    duedateInput.value = senddate.toISOString().slice(0, 10);
+
      document.addEventListener('DOMContentLoaded', function() {
     // Lấy phần tử select và input
     const numberSelect = document.getElementById('numberSelect');

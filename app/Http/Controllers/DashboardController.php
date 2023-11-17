@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Expense;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +25,40 @@ class DashboardController extends Controller
             $account->transactions = $incomeTransactions + $expenseTransactions;
         }
     
-        $stats['spent'] = DB::table('expenses')->where('user', $user->id)->whereMonth('expense_date', date("m"))->sum('amount');
+        $stats['allocated'] = Category::where('user', $user->id)->sum("budget");
+        $stats['spent'] = Expense::where('user', $user->id)
+                                ->whereMonth('expense_date', date("m"))
+                                ->sum('expenses.amount');
+    
+        if ($user->monthly_spending > 0) {
+            $stats['percentage'] = round(($stats['spent'] / $user->monthly_spending) * 100);
+        } else {
+            $stats['percentage'] = 0;
+        }
+    
+        $budgets = Category::leftJoin("cashlimit", "categories.id", "=", "cashlimit.category")
+                           ->where("user", $user->id)
+                           ->where('type', 'expense')
+                           ->get();
+     
+        $budgets1 = Category::where("user", $user->id)->where('type', 'expense')->get();
+    
+        foreach ($budgets1 as $budget) {
+            $cashlimit = DB::table('cashlimit')->where('category', $budget->id)->first();
+            if ($cashlimit) {
+                $budget->spent = DB::table('expenses')
+                                ->leftJoin("categories", "expenses.category", "=", "categories.id")
+                                ->where('categories.id', $budget->id)
+                                ->whereBetween('expenses.expense_date',[$cashlimit->startday, $cashlimit->endday])
+                                ->sum('expenses.amount');
+            
+                if ($budget->budget > 0) {
+                    $budget->percentage = round(($budget->spent / $budget->budget) * 100);
+                } else {
+                    $budget->percentage = 0;
+                }
+            }
+        }
         $stats['percentage'] = $user->monthly_spending > 0 ? round(($stats['spent'] / $user->monthly_spending) * 100) : 0;
         $stats['income'] = DB::table('income')->where('user', $user->id)->whereMonth('income_date', date("m"))->sum('amount');
  
@@ -43,7 +78,7 @@ class DashboardController extends Controller
     
         $reports = $this->reports(date('Y-m-d', strtotime('today - 30 days')) . ' 23:59:59', date('Y-m-d') . ' 00:00:00','10');
 
-        return view('dashboard.index', compact("user", "accounts", "categories", "incomecategories", "title", "stats", "reports"));
+        return view('dashboard.index', compact("user", "accounts", "categories", "incomecategories", "title", "stats", "reports","budgets1"));
     }
 
 

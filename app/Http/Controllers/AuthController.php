@@ -24,6 +24,7 @@ class AuthController extends Controller
             'password' =>$request->input('password')
         ];
         if (Auth::attempt($credentials)) {
+            session()->flash('show_warning', true);
             return redirect()->route('dashboard.index')->with('success','Đăng nhập thành công');
         }
        return redirect()->route('auth.signin')->with('error','Email hoặc mật khẩu không chính xác');
